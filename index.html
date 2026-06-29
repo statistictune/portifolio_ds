@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rafael Aguilar Magalhaes — Senior Data Scientist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0D1F3C;
+    --blue: #2563EB;
+    --teal: #0F9B8E;
+    --gray: #64748B;
+    --light: #F7F8FA;
+    --border: #E2E8F0;
+    --white: #ffffff;
+    --text: #1E293B;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--light);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 4rem;
+    background: rgba(247,248,250,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em;
+    color: var(--gray); text-decoration: none; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--navy); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 6rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 2rem; height: 2px; background: var(--teal);
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    color: var(--navy);
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--blue);
+  }
+  .hero-desc {
+    font-size: 1.05rem; color: var(--gray);
+    max-width: 480px; margin-bottom: 2.5rem;
+    line-height: 1.75;
+  }
+  .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 0.75rem 1.75rem;
+    background: var(--navy); color: white;
+    border: none; border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .btn-primary:hover { background: var(--blue); transform: translateY(-1px); }
+  .btn-outline {
+    padding: 0.75rem 1.75rem;
+    background: transparent; color: var(--navy);
+    border: 1.5px solid var(--navy); border-radius: 4px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem; font-weight: 500;
+    cursor: pointer; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-outline:hover { background: var(--navy); color: white; }
+
+  /* SVG CANVAS */
+  .hero-visual {
+    position: relative; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #bayesian-canvas { width: 100%; max-width: 520px; }
+
+  /* STATS ROW */
+  .stats-row {
+    display: flex; gap: 3rem;
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+  }
+  .stat { display: flex; flex-direction: column; }
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem; color: var(--navy);
+  }
+  .stat-label { font-size: 0.8rem; color: var(--gray); letter-spacing: 0.04em; }
+
+  /* SECTIONS */
+  section { padding: 5rem 4rem; }
+  .section-eyebrow {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    color: var(--navy); margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--gray);
+    max-width: 560px; line-height: 1.75; margin-bottom: 3rem;
+  }
+
+  /* ABOUT */
+  .about { background: var(--white); }
+  .about-grid {
+    display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 1rem; color: var(--gray);
+    line-height: 1.8; margin-bottom: 1.25rem;
+  }
+  .about-text p strong { color: var(--navy); font-weight: 600; }
+  .about-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+  .tag {
+    font-size: 0.75rem; font-weight: 500;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 100px; color: var(--gray);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tag.accent { border-color: var(--blue); color: var(--blue); }
+  .about-highlights { display: flex; flex-direction: column; gap: 1.25rem; }
+  .highlight-card {
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--light);
+    border-left: 3px solid var(--teal);
+  }
+  .highlight-card h4 {
+    font-size: 0.875rem; font-weight: 600;
+    color: var(--navy); margin-bottom: 0.35rem;
+  }
+  .highlight-card p { font-size: 0.825rem; color: var(--gray); line-height: 1.6; }
+
+  /* EXPERIENCE */
+  .experience { background: var(--light); }
+  .exp-list { display: flex; flex-direction: column; gap: 0; }
+  .exp-item {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 3rem; padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-meta { padding-top: 0.25rem; }
+  .exp-period {
+    font-size: 0.75rem; font-family: 'JetBrains Mono', monospace;
+    color: var(--teal); margin-bottom: 0.35rem; font-weight: 500;
+  }
+  .exp-company {
+    font-size: 0.875rem; font-weight: 600; color: var(--navy);
+    margin-bottom: 0.25rem;
+  }
+  .exp-location { font-size: 0.75rem; color: var(--gray); }
+  .exp-content h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem; color: var(--navy); margin-bottom: 0.75rem;
+  }
+  .exp-content p {
+    font-size: 0.9rem; color: var(--gray);
+    line-height: 1.75; margin-bottom: 1rem;
+  }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .exp-bullets li {
+    font-size: 0.875rem; color: var(--gray);
+    padding-left: 1rem; position: relative; line-height: 1.6;
+  }
+  .exp-bullets li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--teal); font-size: 0.75rem; top: 0.1rem;
+  }
+  .exp-stack {
+    display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem;
+  }
+  .stack-tag {
+    font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;
+    padding: 0.25rem 0.6rem;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 3px; color: var(--gray);
+  }
+
+  /* PROJECTS */
+  .projects { background: var(--white); }
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    padding: 1.75rem;
+    border: 1px solid var(--border); border-radius: 8px;
+    background: var(--light);
+    transition: border-color 0.2s, transform 0.2s;
+    display: flex; flex-direction: column;
+  }
+  .project-card:hover { border-color: var(--blue); transform: translateY(-2px); }
+  .project-domain {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 0.75rem;
+  }
+  .project-card h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem; color: var(--navy); margin-bottom: 0.5rem;
+  }
+  .project-card p {
+    font-size: 0.85rem; color: var(--gray);
+    line-height: 1.65; flex: 1; margin-bottom: 1rem;
+  }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .project-tag {
+    font-size: 0.65rem; font-family: 'JetBrains Mono', monospace;
+    padding: 0.2rem 0.5rem;
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 3px; color: var(--gray);
+  }
+  .project-status {
+    font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem; border-radius: 100px;
+    display: inline-block; margin-bottom: 0.75rem;
+  }
+  .status-prod { background: #DCFCE7; color: #166534; }
+  .status-wip { background: #FEF9C3; color: #854D0E; }
+
+  /* SKILLS */
+  .skills { background: var(--navy); }
+  .skills .section-eyebrow { color: var(--teal); }
+  .skills .section-title { color: var(--white); }
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+  }
+  .skill-group h4 {
+    font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: 1rem; padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .skill-list li {
+    font-size: 0.85rem; color: rgba(255,255,255,0.7);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.3rem 0;
+  }
+  .skill-list li::before { content: '· '; color: var(--teal); }
+
+  /* CONTACT */
+  .contact { background: var(--white); text-align: center; }
+  .contact .section-title { margin: 0 auto 1rem; }
+  .contact .section-sub { margin: 0 auto 2.5rem; text-align: center; }
+  .contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.875rem; font-weight: 500; color: var(--navy);
+    text-decoration: none; padding: 0.75rem 1.5rem;
+    border: 1.5px solid var(--border); border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .contact-link:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* FOOTER */
+  footer {
+    padding: 1.5rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p { font-size: 0.8rem; color: var(--gray); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content { animation: fadeUp 0.7s ease both; }
+  .hero-visual { animation: fadeUp 0.7s 0.15s ease both; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+    .hero-visual { display: none; }
+    .stats-row { padding: 1.5rem; flex-wrap: wrap; gap: 1.5rem; }
+    section { padding: 3rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Rafael Aguilar</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Senior Data Scientist · Curitiba, Brazil</div>
+    <h1>Bayesian thinking.<br>
+    <em>Production</em> delivery.<br>
+    Real decisions.</h1>
+    <p class="hero-desc">
+      I build statistical models and AI systems for high-stakes decisions —
+      insurance underwriting, credit risk, and clinical data.
+      Rigorous by training. Pragmatic by necessity.
+    </p>
+    <div class="hero-cta">
+      <a href="#experience" class="btn-primary">View my work</a>
+      <a href="#contact" class="btn-outline">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <svg id="bayesian-canvas" viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg">
+      <!-- Grid lines -->
+      <g stroke="#E2E8F0" stroke-width="0.5">
+        <line x1="40" y1="40" x2="480" y2="40"/>
+        <line x1="40" y1="120" x2="480" y2="120"/>
+        <line x1="40" y1="200" x2="480" y2="200"/>
+        <line x1="40" y1="280" x2="480" y2="280"/>
+        <line x1="120" y1="20" x2="120" y2="320"/>
+        <line x1="200" y1="20" x2="200" y2="320"/>
+        <line x1="280" y1="20" x2="280" y2="320"/>
+        <line x1="360" y1="20" x2="360" y2="320"/>
+        <line x1="440" y1="20" x2="440" y2="320"/>
+      </g>
+      <!-- Axis -->
+      <line x1="40" y1="300" x2="490" y2="300" stroke="#CBD5E1" stroke-width="1.5"/>
+      <line x1="40" y1="20" x2="40" y2="310" stroke="#CBD5E1" stroke-width="1.5"/>
+
+      <!-- Prior — wide, light blue dashed -->
+      <path id="prior-path"
+        d="M 60,298 C 100,296 140,270 180,220 C 220,168 260,100 300,72 C 340,44 380,60 410,110 C 440,160 460,220 480,298"
+        fill="#DBEAFE" fill-opacity="0.4"
+        stroke="#93C5FD" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+      <!-- Likelihood — medium, teal -->
+      <path id="likelihood-path"
+        d="M 100,298 C 140,295 175,265 210,210 C 245,155 270,100 300,75 C 330,50 360,65 385,110 C 410,155 430,220 460,298"
+        fill="#CCFBF1" fill-opacity="0.45"
+        stroke="#0F9B8E" stroke-width="1.5"/>
+
+      <!-- Posterior — narrow, tall, navy -->
+      <path id="posterior-path"
+        d="M 180,298 C 210,295 230,270 250,230 C 270,188 285,140 300,100 C 315,60 330,48 345,60 C 360,72 370,110 385,160 C 400,210 415,258 440,298"
+        fill="#DBEAFE" fill-opacity="0.6"
+        stroke="#2563EB" stroke-width="2"/>
+
+      <!-- Labels -->
+      <text x="82" y="185" font-family="Inter, sans-serif" font-size="12" fill="#93C5FD" font-weight="500">prior</text>
+      <text x="155" y="155" font-family="Inter, sans-serif" font-size="12" fill="#0F9B8E" font-weight="500">likelihood</text>
+      <text x="310" y="88" font-family="Inter, sans-serif" font-size="12" fill="#2563EB" font-weight="500">posterior</text>
+
+      <!-- Formula top -->
+      <text x="50" y="36" font-family="Georgia, serif" font-size="13" fill="#94A3B8" font-style="italic">
+        P(θ|x) ∝ P(x|θ) · P(θ)
+      </text>
+
+      <!-- Annotation line from posterior peak -->
+      <line x1="342" y1="58" x2="390" y2="30" stroke="#2563EB" stroke-width="0.8" stroke-dasharray="3,2" opacity="0.6"/>
+      <text x="393" y="28" font-family="Inter, sans-serif" font-size="10" fill="#2563EB">MAP estimate</text>
+
+      <!-- Credible interval bracket -->
+      <line x1="248" y1="310" x2="435" y2="310" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/>
+      <line x1="248" y1="305" x2="248" y2="315" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/>
+      <line x1="435" y1="305" x2="435" y2="315" stroke="#2563EB" stroke-width="1.5" opacity="0.5"/>
+      <text x="310" y="326" font-family="Inter, sans-serif" font-size="10" fill="#64748B" text-anchor="middle">95% credible interval</text>
+    </svg>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-row">
+  <div class="stat">
+    <span class="stat-number">20k+</span>
+    <span class="stat-label">Healthcare providers modeled</span>
+  </div>
+  <div class="stat">
+    <span class="stat-number">50%</span>
+    <span class="stat-label">Pipeline runtime reduction</span>
+  </div>
+  <div class="stat">
+    <span class="stat-number">6+</span>
+    <span class="stat-label">Years in production DS</span>
+  </div>
+  <div class="stat">
+    <span class="stat-number">2</span>
+    <span class="stat-label">High-stakes domains: insurance + health</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-eyebrow">About</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-title">Bayesian by choice.<br>Production by necessity.</div>
+      <p>
+        I'm a Senior Data Scientist based in Curitiba, Brazil, working at the intersection of
+        <strong>rigorous statistical thinking and real production systems</strong>. My work spans
+        insurance underwriting, credit risk modeling, and clinical data — environments where
+        model uncertainty isn't academic, it's a business risk.
+      </p>
+      <p>
+        At <strong>Junto Seguros</strong>, I contribute to Llobo — an LLM-powered pre-analysis
+        system for underwriting — and build credit risk models that feed directly into product
+        pricing decisions. Before that, I rebuilt a cost-estimation pipeline for
+        <strong>20,000+ healthcare providers</strong> at Grupo Amil, cutting runtime from 16h to 8h
+        and unlocking provider-level forecasting that wasn't previously feasible at that scale.
+      </p>
+      <p>
+        My edge is combining Bayesian inference, survival analysis, and causal modeling with
+        the engineering discipline to ship and maintain models in regulated environments.
+      </p>
+      <div class="about-tags">
+        <span class="tag accent">Bayesian Inference</span>
+        <span class="tag accent">Causal Inference</span>
+        <span class="tag accent">Survival Analysis</span>
+        <span class="tag">Python</span>
+        <span class="tag">R</span>
+        <span class="tag">AWS</span>
+        <span class="tag">LangGraph</span>
+        <span class="tag">PyMC</span>
+      </div>
+    </div>
+    <div class="about-highlights">
+      <div class="highlight-card">
+        <h4>Insurance & Underwriting AI</h4>
+        <p>LLM-powered pre-analysis systems, credit risk classification, regulatory-grade model validation with direct business consequence.</p>
+      </div>
+      <div class="highlight-card">
+        <h4>Healthcare Analytics</h4>
+        <p>Provider cost forecasting, survival analysis for clinical outcomes, document intelligence pipelines for clinical data extraction.</p>
+      </div>
+      <div class="highlight-card">
+        <h4>Bayesian Active Learning</h4>
+        <p>Research-grade work on uncertainty quantification and active sampling — making ML practical when labeled data is scarce.</p>
+      </div>
+      <div class="highlight-card">
+        <h4>Production-first mindset</h4>
+        <p>From raw data pipelines to deployed models. Comfortable owning the full stack — not just the notebook.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience" id="experience">
+  <div class="section-eyebrow">Experience</div>
+  <div class="section-title">Where I've built things.</div>
+  <div class="exp-list">
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-period">Feb 2026 — Present</div>
+        <div class="exp-company">Junto Seguros</div>
+        <div class="exp-location">Curitiba, Brazil</div>
+      </div>
+      <div class="exp-content">
+        <h3>Senior AI Engineer</h3>
+        <p>Building AI systems for insurance decisions across two product lines in a regulated environment where model behavior has direct financial and compliance consequences.</p>
+        <ul class="exp-bullets">
+          <li>Contributing to Llobo — a production LLM system that pre-analyzes insurance submissions against structured risk criteria. Responsible for prompt engineering, agent architecture (LangGraph), and actuarial validation.</li>
+          <li>Building credit risk classification models for company size and risk class segmentation — outputs feed directly into underwriting decisions and product pricing.</li>
+          <li>Designing data pipelines bridging raw data and model-ready datasets.</li>
+        </ul>
+        <div class="exp-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">LangGraph</span>
+          <span class="stack-tag">AWS Bedrock</span>
+          <span class="stack-tag">Statistical Modeling</span>
+          <span class="stack-tag">LLMs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-period">Dec 2024 — Aug 2025</div>
+        <div class="exp-company">Grupo Amil</div>
+        <div class="exp-location">Curitiba, Brazil</div>
+      </div>
+      <div class="exp-content">
+        <h3>Data Scientist Specialist</h3>
+        <p>Applied advanced analytics to healthcare cost management for one of Brazil's largest health insurers — supporting strategic decisions in a department managing billions in provider spend.</p>
+        <ul class="exp-bullets">
+          <li>Rebuilt cost-estimation pipeline for 20,000+ healthcare providers: cut runtime from 16h to 8h while adding granularity across care modalities. This change made provider-level regression models feasible for the first time.</li>
+          <li>Built 6- and 12-month cost forecasting layer for 20k+ providers, directly feeding annual and semiannual budget planning.</li>
+          <li>Led oncology data analysis — findings presented directly to executive board.</li>
+        </ul>
+        <div class="exp-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">Machine Learning</span>
+          <span class="stack-tag">Time Series</span>
+          <span class="stack-tag">NLP</span>
+          <span class="stack-tag">Graph Analysis</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-period">Sep 2025 — Jan 2026</div>
+        <div class="exp-company">Spesia</div>
+        <div class="exp-location">Curitiba, Brazil</div>
+      </div>
+      <div class="exp-content">
+        <h3>Senior Data Scientist</h3>
+        <p>Built document intelligence pipelines for clinical data extraction at a healthtech focused on clinical governance.</p>
+        <ul class="exp-bullets">
+          <li>End-to-end OCR + LLM pipeline for structured extraction from complex PDFs and clinical notes — reducing manual data entry and accelerating clinical case documentation.</li>
+          <li>Biostatistical analysis for clinical case studies supporting ethics committee submissions.</li>
+        </ul>
+        <div class="exp-stack">
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">PaddleOCR</span>
+          <span class="stack-tag">LLMs</span>
+          <span class="stack-tag">Biostatistics</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-meta">
+        <div class="exp-period">Apr 2022 — Dec 2024</div>
+        <div class="exp-company">Techer / ARAUCO</div>
+        <div class="exp-location">Curitiba, Brazil</div>
+      </div>
+      <div class="exp-content">
+        <h3>Data Scientist & BI Consultant</h3>
+        <p>Long-running engagement building real-time BI infrastructure for an MDF manufacturing plant, integrating sensor data across the full production line.</p>
+        <ul class="exp-bullets">
+          <li>Built BI platform monitoring machine condition and sheet quality in real time — enabling operations teams to act on data during production, not after.</li>
+        </ul>
+        <div class="exp-stack">
+          <span class="stack-tag">SQL Server</span>
+          <span class="stack-tag">BigQuery</span>
+          <span class="stack-tag">Grafana</span>
+          <span class="stack-tag">Firestore</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="section-eyebrow">Projects</div>
+  <div class="section-title">What I'm building.</div>
+  <p class="section-sub">A selection of technical work — applied statistical modeling, AI systems, and data pipelines across insurance and healthcare.</p>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-domain">Insurance · Bayesian ML</div>
+      <span class="project-status status-wip">In progress</span>
+      <h3>Bayesian Insurance Risk Model</h3>
+      <p>Hierarchical Bayesian model for insurance risk classification using GLMs with PyMC. Outputs full posterior distributions — not just point estimates — enabling uncertainty-aware underwriting decisions.</p>
+      <div class="project-tags">
+        <span class="project-tag">PyMC</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Bayesian GLM</span>
+        <span class="project-tag">Uncertainty</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-domain">Healthcare · Survival Analysis</div>
+      <span class="project-status status-wip">In progress</span>
+      <h3>Clinical Survival Analysis Pipeline</h3>
+      <p>End-to-end survival analysis pipeline for clinical outcomes using Cox PH, AFT models, and competing risks. Built for reproducibility and interpretability — hazard ratios with clinical context.</p>
+      <div class="project-tags">
+        <span class="project-tag">lifelines</span>
+        <span class="project-tag">R</span>
+        <span class="project-tag">Cox PH</span>
+        <span class="project-tag">Competing Risks</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-domain">Causal Inference</div>
+      <span class="project-status status-wip">In progress</span>
+      <h3>Causal Inference in Healthcare</h3>
+      <p>Estimating causal effects of clinical interventions using propensity score matching and difference-in-differences on observational data — when RCTs aren't available.</p>
+      <div class="project-tags">
+        <span class="project-tag">PSM</span>
+        <span class="project-tag">DiD</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">MEPS data</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-domain">Document Intelligence · LLMs</div>
+      <span class="project-status status-wip">In progress</span>
+      <h3>LLM Document Extraction Pipeline</h3>
+      <p>Production-grade pipeline for structured data extraction from unstructured clinical and insurance documents. OCR + LLM with JSON schema validation and accuracy evaluation.</p>
+      <div class="project-tags">
+        <span class="project-tag">LangChain</span>
+        <span class="project-tag">OCR</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Evaluation</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-domain">Bayesian · A/B Testing</div>
+      <span class="project-status status-wip">In progress</span>
+      <h3>Bayesian A/B Testing Framework</h3>
+      <p>A rigorous alternative to frequentist A/B testing — Beta-Binomial conjugate model with Thompson Sampling and sequential testing. Solves optional stopping and p-hacking issues.</p>
+      <div class="project-tags">
+        <span class="project-tag">PyMC</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">Sequential Testing</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-domain">Healthcare · Forecasting</div>
+      <span class="project-status status-wip">In progress</span>
+      <h3>Healthcare Provider Cost Forecasting</h3>
+      <p>Provider-level cost forecasting at scale using ensemble time series methods. Replicating the production logic from Grupo Amil with public CMS Medicare data.</p>
+      <div class="project-tags">
+        <span class="project-tag">Prophet</span>
+        <span class="project-tag">ARIMA</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">CMS data</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills" id="skills">
+  <div class="section-eyebrow">Skills</div>
+  <div class="section-title" style="color: white; margin-bottom: 3rem;">The full stack.</div>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <h4>Statistical Modeling</h4>
+      <ul class="skill-list">
+        <li>Bayesian Inference (PyMC)</li>
+        <li>Survival Analysis</li>
+        <li>Causal Inference</li>
+        <li>GLMs / Mixed Models</li>
+        <li>Propensity Score Matching</li>
+        <li>Uncertainty Quantification</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Machine Learning</h4>
+      <ul class="skill-list">
+        <li>Credit Risk Modeling</li>
+        <li>Predictive Modeling</li>
+        <li>Time Series Forecasting</li>
+        <li>Active Learning</li>
+        <li>NLP / Document Intelligence</li>
+        <li>Model Calibration</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>AI & LLM Systems</h4>
+      <ul class="skill-list">
+        <li>LangGraph / LangChain</li>
+        <li>Prompt Engineering</li>
+        <li>RAG Pipelines</li>
+        <li>AWS Bedrock</li>
+        <li>OCR Pipelines</li>
+        <li>Agent Architecture</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Languages & Tools</h4>
+      <ul class="skill-list">
+        <li>Python · R</li>
+        <li>SQL · SparkSQL</li>
+        <li>AWS (SageMaker, S3, Lambda)</li>
+        <li>GitHub · MLOps</li>
+        <li>BigQuery · Grafana</li>
+        <li>LaTeX</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-eyebrow">Contact</div>
+  <div class="section-title">Let's talk.</div>
+  <p class="section-sub">
+    I'm open to conversations about senior remote roles in insurance, healthtech, or fintech —
+    especially where statistical rigor and production delivery both matter.
+  </p>
+  <div class="contact-links">
+    <a href="mailto:aguilarafa2010@gmail.com" class="contact-link">
+      ✉ aguilarafa2010@gmail.com
+    </a>
+    <a href="https://www.linkedin.com/in/rafael-aguilar-magalhaes" target="_blank" class="contact-link">
+      in LinkedIn
+    </a>
+    <a href="https://github.com/statistictune" target="_blank" class="contact-link">
+      ⌥ GitHub
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>Rafael Aguilar Magalhaes · Senior Data Scientist · Curitiba, Brazil</p>
+  <p style="font-size:0.75rem; color: var(--gray);">Bayesian ML · Insurance Risk · LLMs in Production</p>
+</footer>
+
+<script>
+  // Smooth scroll offset for fixed nav
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  // Subtle animated pulse on posterior curve
+  const posterior = document.getElementById('posterior-path');
+  if (posterior) {
+    let t = 0;
+    function pulse() {
+      t += 0.02;
+      const opacity = 0.55 + Math.sin(t) * 0.1;
+      posterior.style.fillOpacity = opacity;
+      requestAnimationFrame(pulse);
+    }
+    pulse();
+  }
+</script>
+
+</body>
+</html>
